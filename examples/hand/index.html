@@ -1,0 +1,1489 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../s2/">
+      
+      
+        <link rel="next" href="../relative_pos/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Hand teleop and policy - INCAR Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#processing-steps" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://the-link.se" title="INCAR Docs" class="md-header__button md-logo" aria-label="INCAR Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            INCAR Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hand teleop and policy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://the-link.se" title="INCAR Docs" class="md-nav__button md-logo" aria-label="INCAR Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    INCAR Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/first_steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    First Steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/workspace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup your workspace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/teleoperation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Teleoperate your robot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/retrieving_state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieving state
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/collecting_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Collecting data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/training/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Training a policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Playing a policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced features
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using extensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/ppp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom data processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/camera/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom camera
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom input device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/routines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Routines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gr00t/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running GR00T
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating a S2 policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hand teleop and policy
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hand teleop and policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#processing-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processing steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Processing steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-and-installing-the-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating and installing the extension
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processing-step-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processing step code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-processing-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the processing step
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teleoperating-the-robot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teleoperating the robot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-a-model-and-running-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training a model and running inference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../relative_pos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relative position control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../controls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Controls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#processing-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processing steps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Processing steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-and-installing-the-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating and installing the extension
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processing-step-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Processing step code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-the-processing-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the processing step
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#teleoperating-the-robot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teleoperating the robot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-a-model-and-running-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training a model and running inference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Hand teleop and policy</h1>
+
+<p>This example will walk through setting up the Inspire Hand using an <a href="../../advanced/extensions/">extension</a> for a <a href="../../advanced/ppp/">custom processing step</a> that remaps the finger joints to control signals that can be interpreted by the inspire hand. Furthermore, the integration of the hand with the incar system will be explained. The complete Inspire Hand implementation can be found <a href="https://github.com/INCAR-Robotics/inspire_extension">here</a></p>
+<p>Setting up another hand will follow a very similar path, with just a different joint remapping. The Inspire hand has six degrees of freedom, one for each finger and an additional one for the thumb. The incar system provides cartesian positions for 26 tracked points according to the <a href="https://docs.unity3d.com/Packages/com.unity.xr.hands@1.5/manual/hand-data/xr-hand-data-model.html">Unity Hand Model</a>. Thus, we need to remap the joints so that the Inspire Hand can interpret the commands</p>
+<h2 id="processing-steps">Processing steps</h2>
+<h3 id="creating-and-installing-the-extension">Creating and installing the extension</h3>
+<p>First we create an extension package for the processing step:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~/incar/bin/activate
+incar<span class="w"> </span>create_pkg<span class="w"> </span>--name<span class="w"> </span>inspire_hand<span class="w"> </span>--processing<span class="w"> </span><span class="o">[</span>path<span class="o">]</span>
+</code></pre></div>
+<p>Then install the extension in editable mode, so we can hot reload it:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~/incar/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="o">[</span>path_to_package<span class="o">]</span>
+</code></pre></div>
+<h3 id="processing-step-code">Processing step code</h3>
+<p>We create a processingstep that can take the <code>[left/right].commands.hand.joints.position</code> features provided by the Incar System, and create a new feature <code>[left/right].commands.hand.inspire</code>. We hook this into the <code>TELEOP_COMMAND</code> hook.
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">inspire_hand_processing/steps.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">incar.extensions.processing_step</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessStep</span><span class="p">,</span> <span class="n">ProcessHook</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.retargeting</span><span class="w"> </span><span class="kn">import</span> <span class="n">Retargeter</span>
+
+<span class="nd">@ProcessStep</span><span class="o">.</span><span class="n">register_subclass</span><span class="p">(</span><span class="s2">"inspire_hand_remapping"</span><span class="p">)</span>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">InspireHandRemapping</span><span class="p">(</span><span class="n">ProcessStep</span><span class="p">):</span>
+    <span class="n">hooks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProcessHook</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="n">ProcessHook</span><span class="o">.</span><span class="n">TELEOP_COMMAND</span><span class="p">])</span>
+    <span class="n">hand_features</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="s2">"left.commands.hand.joints.position"</span><span class="p">,</span> <span class="s2">"right.commands.hand.joints.position"</span><span class="p">])</span>
+    <span class="n">processed_features</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">[</span><span class="s2">"left.commands.hand.inspire"</span><span class="p">,</span> <span class="s2">"right.commands.hand.inspire"</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">retargeter</span> <span class="o">=</span> <span class="n">Retargeter</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_single_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="c1"># prevent foreach loop where keys of dict change during loop</span>
+        <span class="n">keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hand_features</span><span class="p">:</span>
+                <span class="k">continue</span> 
+            <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="n">goal_angles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retargeter</span><span class="o">.</span><span class="n">map_joints_to_goal_angles</span><span class="p">(</span><span class="n">frame</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+            <span class="c1"># Now, some magic numbers for offsets and mapping it into the expected range for the Inspire Hand (0 - 1000)</span>
+            <span class="n">goal_angles</span> <span class="o">=</span> <span class="o">...</span>
+
+            <span class="n">corresponding_processed_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">processed_features</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">hand_features</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+            <span class="n">frame</span><span class="p">[</span><span class="n">corresponding_processed_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">goal_angles</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div></p>
+<p>Make sure to import the right class in <code>inspire_hand_processing/__init__.py</code>:</p>
+<div class="highlight"><span class="filename">inspire_hand_processing/__init__.py</span><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">.steps</span><span class="w"> </span><span class="kn">import</span> <span class="n">InspireHandRemapping</span>
+</code></pre></div>
+<p>If you were already running the incar system, this requires a restart.</p>
+<h3 id="using-the-processing-step">Using the processing step</h3>
+<p>Now we need to add the retargeting in the <code>workspace_config.json</code>. Furthermore, we want to be able to engage/disengage our control. Since we don't have controllers with buttons, we suggest connecting bluetooth pedals to the headset, which can be configured with sending <code>A</code>, <code>B</code>, ... keys. Then we can use these to engage and disengage control.</p>
+<div class="highlight"><span class="filename">workspace_config.json</span><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">"command_processing"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"inspire_hand_remapping"</span><span class="p">,</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"require_active_button"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"left.commands.hand.inspire"</span><span class="p">],</span>
+<span class="w">            </span><span class="nt">"button_feature"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pedals"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"button_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A"</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"require_active_button"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"right.commands.hand.inspire"</span><span class="p">],</span>
+<span class="w">            </span><span class="nt">"button_feature"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pedals"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"button_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"B"</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="err">...</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Now, you should be able to see the <code>[left/right].commands.hand.inspire</code> features in the outgoing commands in the live data panel.</p>
+<div class="admonition failure">
+<p class="admonition-title"><code>[left/right].commands.hand.inspire</code> not showing</p>
+<p>Are you not seeing the features? Make sure that you have enabled 'hand-tracking' mode within the XR view, and that you are using the pedals to engage control!</p>
+</div>
+<h2 id="teleoperating-the-robot">Teleoperating the robot</h2>
+<p>We can now use the <code>[left/right].commands.hand.inspire</code> command hook for the inspire hand:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">inspire_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">openSerial</span><span class="p">,</span> <span class="n">write6</span><span class="p">,</span> <span class="n">read6</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">incar_networking.robot_interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">IncarRobotInterface</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">InspireHand</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial</span> <span class="o">=</span> <span class="n">openSerial</span><span class="p">(</span><span class="s1">'/dev/ttyUSB0'</span><span class="p">,</span> <span class="mi">115200</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_joints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_positions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]):</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">joint_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">joint_positions</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">joint_positions</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">joint_positions</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">joint_positions</span><span class="p">[</span><span class="mi">4</span><span class="p">]),</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">joint_positions</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="p">]</span>
+        <span class="n">write6</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'angleSet'</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">publish_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface</span><span class="p">:</span> <span class="n">IncarRobotInterface</span><span class="p">):</span>
+        <span class="n">currentAngles</span> <span class="o">=</span> <span class="n">read6</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'angleAct'</span><span class="p">)</span>
+        <span class="n">currentForces</span> <span class="o">=</span> <span class="n">read6</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serial</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'forceAct'</span><span class="p">)</span>
+        <span class="n">interface</span><span class="o">.</span><span class="n">set_robot_state</span><span class="p">(</span><span class="s2">"hand"</span><span class="p">,</span> <span class="n">joint_pos</span><span class="o">=</span><span class="n">currentAngles</span><span class="p">,</span> <span class="n">joint_effort</span><span class="o">=</span><span class="n">currentForces</span><span class="p">)</span>
+        <span class="n">interface</span><span class="o">.</span><span class="n">publish_state</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">robot</span> <span class="o">=</span> <span class="n">InspireHand</span><span class="p">()</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="n">IncarRobotInterface</span><span class="p">(</span>
+        <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">command_hooks</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"left.commands.hand.inspire"</span><span class="p">:</span> <span class="n">robot</span><span class="o">.</span><span class="n">move_joints</span>
+        <span class="p">},</span>
+        <span class="n">loop_callbacks</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">robot</span><span class="o">.</span><span class="n">publish_state</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">interface</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="s2">"127.0.0.1"</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div></p>
+<p>And voila! We can teleoperate the hand! Note that we also are publishing state back to the incar system, so that we can collect our dataset!</p>
+<div class="admonition todo">
+<p class="admonition-title">Todo</p>
+<p>include GIF</p>
+</div>
+<h2 id="training-a-model-and-running-inference">Training a model and running inference</h2>
+<p>We can collect a dataset with the following features:</p>
+<ul>
+<li><code>wrist_cam</code></li>
+<li><code>left.commands.hand.inspire</code></li>
+<li><code>hand.joints.position</code></li>
+<li><code>hand.joints.efforts</code></li>
+<li><code>pedals</code></li>
+</ul>
+<p>Note how we can use our mapped feature directly in the dataset. This way, when we train the network, it can output the inspire commands right away. Then, we can train a policy on this data just like any other policy, using the <code>[left/right].commands.hand.inspire</code> feature as an output feature.
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">"policy"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"input_features"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"wrist_cam"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VISUAL"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"shape"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">240</span><span class="p">,</span><span class="w"> </span><span class="mi">320</span><span class="p">]</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">"hand.joints.position"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"STATE"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"shape"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">"output_features"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"left.commands.hand.inspire"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACTION"</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">"shape"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+
+<span class="w">        </span><span class="nt">"preprocessing"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"steps"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="err">...</span><span class="p">,</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                    </span><span class="err">#</span><span class="w"> </span><span class="err">This</span><span class="w"> </span><span class="err">s</span><span class="kc">te</span><span class="err">p</span><span class="w"> </span><span class="err">ca</span><span class="kc">n</span><span class="w"> </span><span class="kc">f</span><span class="err">il</span><span class="kc">ter</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">da</span><span class="kc">ta</span><span class="w"> </span><span class="err">based</span><span class="w"> </span><span class="err">o</span><span class="kc">n</span><span class="w"> </span><span class="err">whe</span><span class="kc">t</span><span class="err">her</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">ha</span><span class="kc">n</span><span class="err">d</span><span class="w"> </span><span class="kc">tele</span><span class="err">opera</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="w"> </span><span class="err">was</span><span class="w"> </span><span class="err">e</span><span class="kc">n</span><span class="err">gaged</span><span class="p">,</span><span class="w"> </span><span class="err">usi</span><span class="kc">n</span><span class="err">g</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="kc">feet</span><span class="w"> </span><span class="err">pedals.</span>
+<span class="w">                    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"filter_by_buttons"</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">"button_feature_names"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"pedals"</span><span class="p">],</span>
+<span class="w">                    </span><span class="nt">"button_names"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"A"</span><span class="p">]</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="err">...</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="err">...</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="err">...</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div>
+After training, just load the policy and voila! You now have an autonomous hand completing your task!</p>
+<div class="admonition todo">
+<p class="admonition-title">Todo</p>
+<p>GIF</p>
+</div>
+<details class="note">
+<summary>Cross-Hand-Type policy</summary>
+<p>If you would want to have policies running cross-hand type, you would need to record the richer full hand joint data and use this as action output for the model. Then, make sure that the preprocessing-step for the joint remapping also hooks into the <code>INFERENCE_COMMAND</code> hook:
+<div class="highlight"><span class="filename">workspace_config.json</span><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">"command_processing"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"inspire_hand_remapping"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"hooks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"TELEOP_COMMAND"</span><span class="p">,</span><span class="w"> </span><span class="s2">"INFERENCE_COMMAND"</span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div></p>
+</details>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 5, 2026 10:22:39 UTC">October 5, 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.select", "content.code.annotate", "content.code.copy", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

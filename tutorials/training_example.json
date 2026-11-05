@@ -1,0 +1,71 @@
+{
+    "workspace": "~/my_ws",
+    "model_save_name": "example_policy",
+    "preprocessed_dataset_name": "example_dataset",
+    
+    "policy": {
+        "type": "diffusion",
+        "dt": 0.1,
+        "input_features": {
+            "wrist_cam": {
+                "type": "VISUAL",
+                "shape": [3, 240, 320]
+            },
+            "arm.ee.pose": {
+                "type": "STATE",
+                "shape": [7]
+            },
+            "gripper.joints.position": {
+                "type": "STATE",
+                "shape": [1]
+            }
+        },
+        "output_features": {
+            "right.commands.arm.ee.velocity": {
+                "type": "ACTION",
+                "shape": [6]
+            },
+            "right.commands.gripper.openclose": {
+                "type": "ACTION",
+                "shape": [1]
+            }
+        },
+
+        "preprocessing": {
+            "raw_dataset_name": "example_dataset",
+            "validation_ratio": 0.15,
+            "steps": [
+                {
+                    "type": "sample_dt",
+                    "dt": 0.1
+                },
+                {
+                    "type": "downsample_video",
+                    "features": ["wrist_cam"],
+                    "new_size": [240, 320]
+                },
+                {
+                    "type": "filter_by_buttons",
+                    "button_feature_names": ["right.buttons"],
+                    "button_names": ["gripValue"]
+                },
+                {
+                    "type": "image_transform",
+                    "features": ["wrist_cam"],
+                    "noise_sigma": 0.05,
+                    "transforms": {
+                        "brightness": [0.6, 1.4],
+                        "contrast": [0.6, 1.4],
+                        "saturation": [0.6, 1.4],
+                        "hue": [-0.1, 0.1]
+                    }
+                }
+            ]
+        }
+    },
+
+    "batch_size": 64,
+    "num_workers": 8,
+    "save_freq": 20000,
+    "validate_freq": 1000
+}
